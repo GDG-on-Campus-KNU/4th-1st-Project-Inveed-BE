@@ -24,11 +24,23 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	// Web
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	// JPA
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	// Lombok
 	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 	annotationProcessor 'org.projectlombok:lombok'
+
+	// Maria DB
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+
+	// Oauth2
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+	// Test code
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }

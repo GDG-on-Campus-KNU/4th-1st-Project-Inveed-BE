@@ -1,4 +1,10 @@
 spring:
+  application:
+    name: inveed
+
+  profiles:
+    include: oauth
+
   datasource:
     driver-class-name: ${DB_DRIVER}
     url: ${DB_URL}
