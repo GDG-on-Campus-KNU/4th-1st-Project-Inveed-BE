@@ -7,6 +7,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
+    // TODO Add security with CORS before production
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
