@@ -1,4 +1,4 @@
-package com.gdgknu.Inveed.config.auth.dto;
+package com.gdgknu.Inveed.security.dto;
 
 import com.gdgknu.Inveed.domain.user.Role;
 import com.gdgknu.Inveed.domain.user.User;
