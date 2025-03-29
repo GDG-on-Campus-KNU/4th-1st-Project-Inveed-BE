@@ -39,9 +39,6 @@ out/
 ### Secret files ###
 .env
 
-### FloorPlans upload directory ###
-uploaded/
-
 ### logs ###
 **/*.log
 
