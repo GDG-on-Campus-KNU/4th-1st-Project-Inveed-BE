@@ -25,6 +25,7 @@ public class AuthService {
         }
 
         String email = jwtUtil.parseToken(reissueReqDTO.refreshToken()).getSubject();
+        System.out.println(email);
         User user = userRepository.findByEmail(email).orElseThrow();
         String storedRefreshToken = refreshTokenService.getRefreshToken(email);
 
@@ -44,5 +45,11 @@ public class AuthService {
 
         String email = jwtUtil.parseToken(logoutReqDTO.accessToken()).getSubject();
         refreshTokenService.deleteTokens(email);
+    }
+
+    public LoginResDTO getLoginInfo(String accessToken, String refreshToken) {
+        String email = jwtUtil.extractEmail(accessToken);
+        User user = userRepository.findByEmail(email).orElseThrow();
+        return LoginResDTO.fromEntity(user, accessToken, refreshToken);
     }
 }

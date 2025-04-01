@@ -27,8 +27,6 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
         String email = (String) oAuth2User.getAttributes().get("email");
 
-        User user = userRepository.findByEmail(email).orElseThrow();
-
         // Creates access token and refresh token
         String accessToken = jwtUtil.createAccessToken(email);
         String refreshToken = jwtUtil.createRefreshToken(email);
@@ -36,12 +34,22 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         // Save refresh token
         refreshTokenService.saveRefreshToken(email, refreshToken);
 
-        LoginResDTO loginResDTO = LoginResDTO.fromEntity(user, accessToken, refreshToken);
+        // Save token data in cookie
+        Cookie accessTokenCookie = new Cookie("accessToken", accessToken);
+        accessTokenCookie.setHttpOnly(true);
+//        accessTokenCookie.setSecure(true);  // TODO Only for HTTPS (Recommend)
+        accessTokenCookie.setPath("/");
+        accessTokenCookie.setMaxAge(60);  // Valid for 1 min
+        response.addCookie(accessTokenCookie);
 
-        // 세션에 토큰 저장
-        request.getSession().setAttribute("accessToken", accessToken);
-        request.getSession().setAttribute("refreshToken", refreshToken);
+        Cookie refreshTokenCookie = new Cookie("refreshToken", refreshToken);
+        refreshTokenCookie.setHttpOnly(true);
+//        refreshTokenCookie.setSecure(true);  // TODO Only for HTTPS (Recommend)
+        refreshTokenCookie.setPath("/");
+        refreshTokenCookie.setMaxAge(60);  // Valid for 1 min
+        response.addCookie(refreshTokenCookie);
 
+        // TODO Update redirect URL
         response.sendRedirect("http://localhost:5500/");
     }
 }

@@ -29,7 +29,7 @@ public class JwtUtil {
 
     public String createAccessToken(String email) {
         Claims claims = Jwts.claims();
-        claims.put("emailId", email);
+        claims.put("email", email);
         claims.put("type", "access");
 
         return Jwts.builder()
@@ -74,7 +74,6 @@ public class JwtUtil {
         try {
             Claims claims = parseToken(token);
             Date expiration = claims.getExpiration();
-
             return expiration.before(new Date(System.currentTimeMillis()));
         } catch (SignatureException | ExpiredJwtException e) {
             return false;
