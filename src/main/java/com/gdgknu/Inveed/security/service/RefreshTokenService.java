@@ -19,6 +19,7 @@ public class RefreshTokenService {
     public String getRefreshToken(String email) {
         String existingRefreshToken = redisTemplate.opsForValue().get(email);
         if(existingRefreshToken == null) {
+            // TODO Update CustomException
             throw new RuntimeException("No refresh token found for email: " + email);
         }
         return existingRefreshToken;

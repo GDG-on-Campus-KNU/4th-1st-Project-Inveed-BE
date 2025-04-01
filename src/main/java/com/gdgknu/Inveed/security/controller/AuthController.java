@@ -1,24 +1,17 @@
 package com.gdgknu.Inveed.security.controller;
 
 import com.gdgknu.Inveed.security.dto.LoginResDTO;
-import com.gdgknu.Inveed.security.dto.LogoutReqDTO;
 import com.gdgknu.Inveed.security.dto.ReissueReqDTO;
 import com.gdgknu.Inveed.security.service.AuthService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/auth")
 public class AuthController {
 
     private final AuthService authService;
@@ -30,29 +23,17 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(@RequestBody LogoutReqDTO logoutReqDTO) {
-        authService.logout(logoutReqDTO);
+    public ResponseEntity<?> logout(HttpServletResponse response, @RequestAttribute("accessToken") String accessToken) {
+        authService.logout(response, accessToken);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/auth-info")
-    public ResponseEntity<Map<String, String>> getAuthInfo(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        if (session == null) {
+    @GetMapping("/login-info")
+    public ResponseEntity<LoginResDTO> getLoginInfo(@CookieValue(value = "accessToken", required = false) String accessToken) {
+        if (accessToken == null)
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
 
-        String accessToken = (String) session.getAttribute("accessToken");
-        String refreshToken = (String) session.getAttribute("refreshToken");
-
-        if (accessToken == null || refreshToken == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
-        Map<String, String> tokens = new HashMap<>();
-        tokens.put("accessToken", accessToken);
-        tokens.put("refreshToken", refreshToken);
-
-        return ResponseEntity.ok(tokens);
+        LoginResDTO loginResDTO = authService.getLoginInfo(accessToken);
+        return ResponseEntity.ok(loginResDTO);
     }
 }

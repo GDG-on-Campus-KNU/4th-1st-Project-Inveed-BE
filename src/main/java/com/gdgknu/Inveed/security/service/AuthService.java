@@ -3,8 +3,9 @@ package com.gdgknu.Inveed.security.service;
 import com.gdgknu.Inveed.domain.user.User;
 import com.gdgknu.Inveed.domain.user.UserRepository;
 import com.gdgknu.Inveed.security.dto.LoginResDTO;
-import com.gdgknu.Inveed.security.dto.LogoutReqDTO;
 import com.gdgknu.Inveed.security.dto.ReissueReqDTO;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,16 +20,12 @@ public class AuthService {
     private final UserRepository userRepository;
 
     public LoginResDTO refreshAccessToken(ReissueReqDTO reissueReqDTO) {
-
-        if (!jwtUtil.isTokenValid(reissueReqDTO.refreshToken())) {
-            throw new RuntimeException("Invalid refresh token");
-        }
-
-        String email = jwtUtil.parseToken(reissueReqDTO.refreshToken()).getSubject();
+        String email = jwtUtil.extractEmail(reissueReqDTO.refreshToken());
         User user = userRepository.findByEmail(email).orElseThrow();
         String storedRefreshToken = refreshTokenService.getRefreshToken(email);
 
         if (!reissueReqDTO.refreshToken().equals(storedRefreshToken)) {
+            // TODO Update CustomException
             throw new RuntimeException("Refresh Token mismatch");
         }
 
@@ -38,11 +35,22 @@ public class AuthService {
         return LoginResDTO.fromEntity(user, newAccessToken, newRefreshToken);
     }
 
-    public void logout(LogoutReqDTO logoutReqDTO) {
-        if (!jwtUtil.isTokenValid(logoutReqDTO.accessToken()))
-            throw new RuntimeException("Invalid refresh token");
-
-        String email = jwtUtil.parseToken(logoutReqDTO.accessToken()).getSubject();
+    public void logout(HttpServletResponse response, String accessToken) {
+        String email = jwtUtil.extractEmail(accessToken);
         refreshTokenService.deleteTokens(email);
+
+        Cookie accessTokenCookie = new Cookie("accessToken", null);
+        accessTokenCookie.setHttpOnly(true);
+        accessTokenCookie.setPath("/");
+        accessTokenCookie.setMaxAge(0);  // Expiring accessToken in cookie
+        response.addCookie(accessTokenCookie);
+    }
+
+    public LoginResDTO getLoginInfo(String accessToken) {
+        String email = jwtUtil.extractEmail(accessToken);
+        User user = userRepository.findByEmail(email).orElseThrow();
+        String storedRefreshToken = refreshTokenService.getRefreshToken(email);
+
+        return LoginResDTO.fromEntity(user, accessToken, storedRefreshToken);
     }
 }
