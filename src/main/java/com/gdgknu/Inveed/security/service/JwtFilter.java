@@ -1,5 +1,7 @@
 package com.gdgknu.Inveed.security.service;
 
+import com.gdgknu.Inveed.domain.user.User;
+import com.gdgknu.Inveed.domain.user.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,6 +20,7 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
+    private final UserRepository userRepository;
 
     @Override
     protected void doFilterInternal(
@@ -29,9 +32,14 @@ public class JwtFilter extends OncePerRequestFilter {
         String authHeader = request.getHeader("Authorization");
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            String token = authHeader.replace("Bearer ", "");
-            String email = jwtUtil.extractEmail(token);
+            String accessToken = authHeader.replace("Bearer ", "");
+            String email = jwtUtil.extractEmail(accessToken);
 
+            // TODO Update CustomException
+            User user = userRepository.findByEmail(email).orElseThrow();
+
+            request.setAttribute("accessToken", accessToken);
+            request.setAttribute("userId", user.getId());
 
             UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(email, null, Collections.emptyList());

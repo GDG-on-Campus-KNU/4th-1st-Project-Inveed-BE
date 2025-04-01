@@ -23,6 +23,7 @@ public class JwtUtil {
         try {
             this.SECRET_KEY = Keys.hmacShaKeyFor(Base64.getDecoder().decode(secret));
         } catch (IllegalArgumentException e) {
+            // TODO Update CustomException
             throw new RuntimeException("Invalid SECRET_KEY format. Ensure it is Base64-encoded.", e);
         }
     }
@@ -56,8 +57,15 @@ public class JwtUtil {
     public String extractEmail(String token) {
         try {
             Claims claims = parseToken(token);
+            Date expiration = claims.getExpiration();
+
+            if (expiration.before(new Date(System.currentTimeMillis()))) {
+                // TODO Update CustomException
+                throw new RuntimeException("Invalid JWT token");
+            }
             return claims.get("email", String.class);
         } catch (Exception e) {
+            // TODO Update CustomException
             throw new RuntimeException("Invalid JWT token", e);
         }
     }
@@ -68,16 +76,6 @@ public class JwtUtil {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-    }
-
-    public boolean isTokenValid(String token) {
-        try {
-            Claims claims = parseToken(token);
-            Date expiration = claims.getExpiration();
-            return expiration.before(new Date(System.currentTimeMillis()));
-        } catch (SignatureException | ExpiredJwtException e) {
-            return false;
-        }
     }
 
 }

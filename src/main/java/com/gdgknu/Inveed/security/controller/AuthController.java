@@ -1,18 +1,13 @@
 package com.gdgknu.Inveed.security.controller;
 
 import com.gdgknu.Inveed.security.dto.LoginResDTO;
-import com.gdgknu.Inveed.security.dto.LogoutReqDTO;
 import com.gdgknu.Inveed.security.dto.ReissueReqDTO;
 import com.gdgknu.Inveed.security.service.AuthService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,18 +23,17 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(@RequestBody LogoutReqDTO logoutReqDTO) {
-        authService.logout(logoutReqDTO);
+    public ResponseEntity<?> logout(HttpServletResponse response, @RequestAttribute("accessToken") String accessToken) {
+        authService.logout(response, accessToken);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/login-info")
-    public ResponseEntity<LoginResDTO> getLoginInfo(@CookieValue(value = "accessToken", required = false) String accessToken,
-                                                   @CookieValue(value = "refreshToken", required = false) String refreshToken) {
-        if (accessToken == null || refreshToken == null)
+    public ResponseEntity<LoginResDTO> getLoginInfo(@CookieValue(value = "accessToken", required = false) String accessToken) {
+        if (accessToken == null)
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
-        LoginResDTO loginResDTO = authService.getLoginInfo(accessToken, refreshToken);
+        LoginResDTO loginResDTO = authService.getLoginInfo(accessToken);
         return ResponseEntity.ok(loginResDTO);
     }
 }

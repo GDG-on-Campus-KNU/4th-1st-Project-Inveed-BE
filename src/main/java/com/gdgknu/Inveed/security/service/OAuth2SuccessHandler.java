@@ -39,15 +39,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         accessTokenCookie.setHttpOnly(true);
 //        accessTokenCookie.setSecure(true);  // TODO Only for HTTPS (Recommend)
         accessTokenCookie.setPath("/");
-        accessTokenCookie.setMaxAge(60);  // Valid for 1 min
+        accessTokenCookie.setMaxAge(60 * 5);  // Valid for 5 min
         response.addCookie(accessTokenCookie);
-
-        Cookie refreshTokenCookie = new Cookie("refreshToken", refreshToken);
-        refreshTokenCookie.setHttpOnly(true);
-//        refreshTokenCookie.setSecure(true);  // TODO Only for HTTPS (Recommend)
-        refreshTokenCookie.setPath("/");
-        refreshTokenCookie.setMaxAge(60);  // Valid for 1 min
-        response.addCookie(refreshTokenCookie);
 
         // TODO Update redirect URL
         response.sendRedirect("http://localhost:5500/");
