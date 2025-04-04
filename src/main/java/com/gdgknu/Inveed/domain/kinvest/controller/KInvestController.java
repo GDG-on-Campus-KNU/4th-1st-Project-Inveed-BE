@@ -25,8 +25,25 @@ public class KInvestController {
     @GetMapping("/trade-vol")
     public ResponseEntity<SuccessResponse<List<KInvestTradeResDTO>>> getTradeVol(@RequestBody KInvestTradeReqDTO kInvestTradeReqDTO) {
         List<KInvestTradeResDTO> kInvestTradeResDTO = kInvestService.getTradeVol(kInvestTradeReqDTO);
-        kInvestService.getTradeVol(kInvestTradeReqDTO);
         return ResponseUtil.buildSuccessResponse(SuccessCode.K_INVEST_TRADE_VOL_SUCCESS, kInvestTradeResDTO);
+    }
+
+    @GetMapping("/trade-pbmn")
+    public ResponseEntity<SuccessResponse<List<KInvestTradeResDTO>>> getTradePbmn(@RequestBody KInvestTradeReqDTO kInvestTradeReqDTO) {
+        List<KInvestTradeResDTO> kInvestTradeResDTO = kInvestService.getTradePbmn(kInvestTradeReqDTO);
+        return ResponseUtil.buildSuccessResponse(SuccessCode.K_INVEST_TRADE_PBMN_SUCCESS, kInvestTradeResDTO);
+    }
+
+    @GetMapping("/trade-growth")
+    public ResponseEntity<SuccessResponse<List<KInvestTradeResDTO>>> getTradeGrowth(@RequestBody KInvestTradeReqDTO kInvestTradeReqDTO) {
+        List<KInvestTradeResDTO> kInvestTradeResDTO = kInvestService.getTradeGrowth(kInvestTradeReqDTO);
+        return ResponseUtil.buildSuccessResponse(SuccessCode.K_INVEST_TRADE_GROWTH_SUCCESS, kInvestTradeResDTO);
+    }
+
+    @GetMapping("/trade-turnover")
+    public ResponseEntity<SuccessResponse<List<KInvestTradeResDTO>>> getTradeTurnover(@RequestBody KInvestTradeReqDTO kInvestTradeReqDTO) {
+        List<KInvestTradeResDTO> kInvestTradeResDTO = kInvestService.getTradeTurnover(kInvestTradeReqDTO);
+        return ResponseUtil.buildSuccessResponse(SuccessCode.K_INVEST_TRADE_TRUNOVER_SUCCESS, kInvestTradeResDTO);
     }
 
 }

@@ -33,11 +33,27 @@ public class KInvestService {
     final String TRADE_TURNOVER = "HHDFS76340000";
 
     public List<KInvestTradeResDTO> getTradeVol(KInvestTradeReqDTO kInvestTradeReqDTO) {
+        return getKInvestTradeResDTOS(kInvestTradeReqDTO, TRADE_VOL_URL, TRADE_VOL);
+    }
+
+    public List<KInvestTradeResDTO> getTradePbmn(KInvestTradeReqDTO kInvestTradeReqDTO) {
+        return getKInvestTradeResDTOS(kInvestTradeReqDTO, TRADE_PBMN_URL, TRADE_PBMN);
+    }
+
+    public List<KInvestTradeResDTO> getTradeGrowth(KInvestTradeReqDTO kInvestTradeReqDTO) {
+        return getKInvestTradeResDTOS(kInvestTradeReqDTO, TRADE_GROWTH_URL, TRADE_GROWTH);
+    }
+
+    public List<KInvestTradeResDTO> getTradeTurnover(KInvestTradeReqDTO kInvestTradeReqDTO) {
+        return getKInvestTradeResDTOS(kInvestTradeReqDTO, TRADE_TURNOVER_URL, TRADE_TURNOVER);
+    }
+
+    private List<KInvestTradeResDTO> getKInvestTradeResDTOS(KInvestTradeReqDTO kInvestTradeReqDTO, String tradeVolUrl, String tradeVol) {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.exchange(
-                KINVEST_BASE_URL + TRADE_VOL_URL + KINVEST_PARAMS_URL,
+                KINVEST_BASE_URL + tradeVolUrl + KINVEST_PARAMS_URL,
                 HttpMethod.GET,
-                getResponseEntity(kInvestTradeReqDTO, TRADE_VOL),
+                getResponseEntity(kInvestTradeReqDTO, tradeVol),
                 String.class
         );
 
