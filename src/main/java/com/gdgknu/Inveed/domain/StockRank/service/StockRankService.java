@@ -1,10 +1,10 @@
-package com.gdgknu.Inveed.domain.kinvest.service;
+package com.gdgknu.Inveed.domain.StockRank.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gdgknu.Inveed.domain.kinvest.dto.KInvestTradeReqDTO;
-import com.gdgknu.Inveed.domain.kinvest.dto.KInvestTradeResDTO;
+import com.gdgknu.Inveed.domain.StockRank.dto.StockRankReqDTO;
+import com.gdgknu.Inveed.domain.StockRank.dto.StockRankResDTO;
 import com.gdgknu.Inveed.response.CustomException;
 import com.gdgknu.Inveed.response.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class KInvestService {
+public class StockRankService {
 
     final String KINVEST_BASE_URL = "https://openapi.koreainvestment.com:9443";
     final String KINVEST_PARAMS_URL = "?AUTH&EXCD=NAS&NDAY=0&PRC1=0&PRC2=9999999999&VOL_RANG=0&KEYB";
@@ -32,28 +32,28 @@ public class KInvestService {
     final String TRADE_TURNOVER_URL = "/uapi/overseas-stock/v1/ranking/trade-turnover";
     final String TRADE_TURNOVER = "HHDFS76340000";
 
-    public List<KInvestTradeResDTO> getTradeVol(KInvestTradeReqDTO kInvestTradeReqDTO) {
-        return getKInvestTradeResDTOS(kInvestTradeReqDTO, TRADE_VOL_URL, TRADE_VOL);
+    public List<StockRankResDTO> getTradeVol(StockRankReqDTO stockRankReqDTO) {
+        return getKInvestTradeResDTOS(stockRankReqDTO, TRADE_VOL_URL, TRADE_VOL);
     }
 
-    public List<KInvestTradeResDTO> getTradePbmn(KInvestTradeReqDTO kInvestTradeReqDTO) {
-        return getKInvestTradeResDTOS(kInvestTradeReqDTO, TRADE_PBMN_URL, TRADE_PBMN);
+    public List<StockRankResDTO> getTradePbmn(StockRankReqDTO stockRankReqDTO) {
+        return getKInvestTradeResDTOS(stockRankReqDTO, TRADE_PBMN_URL, TRADE_PBMN);
     }
 
-    public List<KInvestTradeResDTO> getTradeGrowth(KInvestTradeReqDTO kInvestTradeReqDTO) {
-        return getKInvestTradeResDTOS(kInvestTradeReqDTO, TRADE_GROWTH_URL, TRADE_GROWTH);
+    public List<StockRankResDTO> getTradeGrowth(StockRankReqDTO stockRankReqDTO) {
+        return getKInvestTradeResDTOS(stockRankReqDTO, TRADE_GROWTH_URL, TRADE_GROWTH);
     }
 
-    public List<KInvestTradeResDTO> getTradeTurnover(KInvestTradeReqDTO kInvestTradeReqDTO) {
-        return getKInvestTradeResDTOS(kInvestTradeReqDTO, TRADE_TURNOVER_URL, TRADE_TURNOVER);
+    public List<StockRankResDTO> getTradeTurnover(StockRankReqDTO stockRankReqDTO) {
+        return getKInvestTradeResDTOS(stockRankReqDTO, TRADE_TURNOVER_URL, TRADE_TURNOVER);
     }
 
-    private List<KInvestTradeResDTO> getKInvestTradeResDTOS(KInvestTradeReqDTO kInvestTradeReqDTO, String tradeVolUrl, String tradeVol) {
+    private List<StockRankResDTO> getKInvestTradeResDTOS(StockRankReqDTO stockRankReqDTO, String tradeVolUrl, String tradeVol) {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.exchange(
                 KINVEST_BASE_URL + tradeVolUrl + KINVEST_PARAMS_URL,
                 HttpMethod.GET,
-                getResponseEntity(kInvestTradeReqDTO, tradeVol),
+                getResponseEntity(stockRankReqDTO, tradeVol),
                 String.class
         );
 
@@ -63,12 +63,12 @@ public class KInvestService {
         return parseKInvestTradeRes(response.getBody());
     }
 
-    private HttpEntity<Void> getResponseEntity(KInvestTradeReqDTO kInvestTradeReqDTO, String trId) {
+    private HttpEntity<Void> getResponseEntity(StockRankReqDTO stockRankReqDTO, String trId) {
         HttpHeaders headers = new HttpHeaders();
         headers.set("content-type", "application/json; charset=utf-8");
-        headers.set("authorization", "Bearer " + kInvestTradeReqDTO.kInvestAccessToken());
-        headers.set("appkey", kInvestTradeReqDTO.appKey());
-        headers.set("appsecret", kInvestTradeReqDTO.appSecret());
+        headers.set("authorization", "Bearer " + stockRankReqDTO.kInvestAccessToken());
+        headers.set("appkey", stockRankReqDTO.appKey());
+        headers.set("appsecret", stockRankReqDTO.appSecret());
         headers.set("tr_id", trId);
         headers.set("custtype", "P");
 
@@ -76,8 +76,8 @@ public class KInvestService {
     }
 
 
-    private List<KInvestTradeResDTO> parseKInvestTradeRes(String body) {
-        List<KInvestTradeResDTO> results = new ArrayList<>();
+    private List<StockRankResDTO> parseKInvestTradeRes(String body) {
+        List<StockRankResDTO> results = new ArrayList<>();
 
         try {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -87,7 +87,7 @@ public class KInvestService {
             if (!output2Node.isMissingNode() && output2Node.isArray()) {
                 for (JsonNode stockNode : output2Node) {
                     if (stockNode.isObject())
-                        results.add(KInvestTradeResDTO.fromJsonNode(stockNode));
+                        results.add(StockRankResDTO.fromJsonNode(stockNode));
                 }
             } else {
                 throw new CustomException(ErrorCode.KINVEST_SERVER_ERROR);

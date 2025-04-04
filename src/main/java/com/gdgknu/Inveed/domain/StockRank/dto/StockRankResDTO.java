@@ -1,11 +1,11 @@
-package com.gdgknu.Inveed.domain.kinvest.dto;
+package com.gdgknu.Inveed.domain.StockRank.dto;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 
 @Builder
-public record KInvestTradeResDTO(
+public record StockRankResDTO(
         @NotBlank(message = "종목 코드는 필수 입력값입니다.")
         String symb,
         @NotBlank(message = "종목명은 필수 입력값입니다.")
@@ -19,8 +19,8 @@ public record KInvestTradeResDTO(
         @NotBlank(message = "순위는 필수 입력값입니다.")
         String rank
         ) {
-    public static KInvestTradeResDTO fromJsonNode(JsonNode stockNode) {
-        return KInvestTradeResDTO.builder()
+    public static StockRankResDTO fromJsonNode(JsonNode stockNode) {
+        return StockRankResDTO.builder()
                 .symb(stockNode.path("symb").asText(null))
                 .name(stockNode.path("name").asText(null))
                 .last(stockNode.path("last").asText(null))

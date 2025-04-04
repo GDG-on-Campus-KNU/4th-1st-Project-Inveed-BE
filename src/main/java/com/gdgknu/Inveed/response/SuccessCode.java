@@ -13,10 +13,10 @@ public enum SuccessCode {
      */
     LOGIN_SUCCESS(HttpStatus.OK, "로그인 성공"),
     LOGOUT_SUCCESS(HttpStatus.OK, "로그아웃 성공"),
-    K_INVEST_TRADE_VOL_SUCCESS(HttpStatus.OK, "거래량 조회 성공"),
-    K_INVEST_TRADE_PBMN_SUCCESS(HttpStatus.OK, "거래대금 조회 성공"),
-    K_INVEST_TRADE_GROWTH_SUCCESS(HttpStatus.OK, "거래증가율 조회 성공"),
-    K_INVEST_TRADE_TRUNOVER_SUCCESS(HttpStatus.OK, "거래회전율 조회 성공"),
+    STOCK_RANK_VOL_SUCCESS(HttpStatus.OK, "거래량 조회 성공"),
+    STOCK_RANK_PBMN_SUCCESS(HttpStatus.OK, "거래대금 조회 성공"),
+    STOCK_RANK_GROWTH_SUCCESS(HttpStatus.OK, "거래증가율 조회 성공"),
+    STOCK_RANK_TRUNOVER_SUCCESS(HttpStatus.OK, "거래회전율 조회 성공"),
 
     /**
      * 201 CREATED: 새로운 리소스 생성 성공 (POST)
