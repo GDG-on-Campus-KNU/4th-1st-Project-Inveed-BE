@@ -33,7 +33,8 @@ public class SecurityConfig {
                         .requestMatchers("/oauth2/authorization/google").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/v1/**").authenticated()
-                        .anyRequest().denyAll()
+//                        .anyRequest().denyAll()
+                        .anyRequest().permitAll()  // TODO Block anyRequest when publishing
                 )
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))

@@ -46,7 +46,8 @@ public enum ErrorCode {
     /*
      * 500 INTERNAL_SERVER_ERROR: 내부 서버 오류 (Custom Exception 적용이 안되어 있는 경우)
      */
-    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 오류입니다.");  // 예시
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 오류입니다."),  // 예시
+    KINVEST_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "한국투자증권으로부터 데이터를 받아오는 중 문제가 발생했습니다.");
 
 
     private final HttpStatus status;
