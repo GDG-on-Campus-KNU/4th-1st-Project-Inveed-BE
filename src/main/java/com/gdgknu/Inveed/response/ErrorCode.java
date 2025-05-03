@@ -43,6 +43,7 @@ public enum ErrorCode {
      * 409 CONFLICT: 리소스 충돌 (이미 존재하는 리소스)
      */
     USER_ALREADY_EXISTS(HttpStatus.CONFLICT, "이미 존재하는 사용자입니다."),  // 예시
+    FAVORITE_STOCK_ALREADY_EXISTS(HttpStatus.CONFLICT, "이미 등록된 관심 종목입니다."),
 
     /*
      * 500 INTERNAL_SERVER_ERROR: 내부 서버 오류 (Custom Exception 적용이 안되어 있는 경우)

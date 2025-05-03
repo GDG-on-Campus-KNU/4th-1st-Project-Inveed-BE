@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,9 +23,14 @@ public class FavoriteStockService {
     private final FavoriteStockRepository favoriteStockRepository;
     private final UserRepository userRepository;
 
+    @Transactional
     public FavoriteStockResDTO createFavoriteStock(FavoriteStockReqDTO reqDTO, Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        Optional<FavoriteStock> existingFavoriteStock = favoriteStockRepository.findByStockCodeAndUserId(reqDTO.symb(), userId);
+        if (existingFavoriteStock.isPresent())
+            throw new CustomException(ErrorCode.FAVORITE_STOCK_ALREADY_EXISTS);
 
         FavoriteStock favoriteStock = FavoriteStock.builder()
                 .stockCode(reqDTO.symb())
@@ -43,6 +49,7 @@ public class FavoriteStockService {
                 .toList();
     }
 
+    @Transactional
     public void deleteFavoriteStock(String stockCode, Long userId) {
         FavoriteStock favoriteStock = favoriteStockRepository.findByStockCodeAndUserId(stockCode, userId)
                 .orElseThrow(() -> new CustomException(ErrorCode.FAVORITE_STOCK_NOT_FOUND));
