@@ -1,18 +1,19 @@
 package com.gdgknu.Inveed.domain.favoriteStock.entity;
 
-import com.gdgknu.Inveed.domain.BaseTimeEntity;
 import com.gdgknu.Inveed.domain.user.User;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class FavoriteStock {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
