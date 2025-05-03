@@ -23,7 +23,7 @@ public class AuthService {
 
     public LoginResDTO refreshAccessToken(ReissueReqDTO reissueReqDTO) {
         String email = jwtUtil.extractEmail(reissueReqDTO.refreshToken());
-        User user = userRepository.findByEmail(email).orElseThrow();
+        User user = userRepository.findByEmail(email).orElseThrow(()->new CustomException(ErrorCode.USER_NOT_FOUND));
         String storedRefreshToken = refreshTokenService.getRefreshToken(email);
 
         if (!reissueReqDTO.refreshToken().equals(storedRefreshToken)) {
@@ -49,7 +49,7 @@ public class AuthService {
 
     public LoginResDTO getLoginInfo(String accessToken) {
         String email = jwtUtil.extractEmail(accessToken);
-        User user = userRepository.findByEmail(email).orElseThrow();
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
         String storedRefreshToken = refreshTokenService.getRefreshToken(email);
 
         return LoginResDTO.fromEntity(user, accessToken, storedRefreshToken);

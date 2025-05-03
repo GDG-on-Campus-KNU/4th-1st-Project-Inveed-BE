@@ -34,7 +34,7 @@ public class FavoriteStockController {
     @GetMapping
     @Operation(summary = "Retrieves favorite stock ids")
     public ResponseEntity<SuccessResponse<List<FavoriteStockResDTO>>> getFavoriteStocks(
-            @RequestAttribute("user_id") Long userId) {
+            @RequestAttribute("userId") Long userId) {
         List<FavoriteStockResDTO> favoriteStockResDTOList = favoriteStockService.getFavoriteStocks(userId);
         return ResponseUtil.buildSuccessResponse(SuccessCode.FAVORITE_STOCK_READ_SUCCESS, favoriteStockResDTOList);
     }
