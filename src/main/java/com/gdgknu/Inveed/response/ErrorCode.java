@@ -34,6 +34,7 @@ public enum ErrorCode {
      */
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "사용자를 찾을 수 없습니다."),    // 예시
     HANDLER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 핸들러입니다."),
+    FAVORITE_STOCK_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 관심 종목입니다."),
     REFRESH_TOKEN_NOT_FOUND(HttpStatus.NOT_FOUND, "리프레쉬 토큰을 찾을 수 없습니다."),
 
     /*
@@ -45,6 +46,7 @@ public enum ErrorCode {
      * 409 CONFLICT: 리소스 충돌 (이미 존재하는 리소스)
      */
     USER_ALREADY_EXISTS(HttpStatus.CONFLICT, "이미 존재하는 사용자입니다."),  // 예시
+    FAVORITE_STOCK_ALREADY_EXISTS(HttpStatus.CONFLICT, "이미 등록된 관심 종목입니다."),
 
     /*
      * 500 INTERNAL_SERVER_ERROR: 내부 서버 오류 (Custom Exception 적용이 안되어 있는 경우)
