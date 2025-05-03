@@ -31,6 +31,7 @@ public class SecurityConfig {
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/oauth2/authorization/google").permitAll()
+                        .requestMatchers("/api/auth/kinvest-login").authenticated()
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/v1/**").authenticated()
 //                        .anyRequest().denyAll()
