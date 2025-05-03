@@ -1,5 +1,7 @@
 package com.gdgknu.Inveed.security.service;
 
+import com.gdgknu.Inveed.response.CustomException;
+import com.gdgknu.Inveed.response.ErrorCode;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -23,7 +25,6 @@ public class JwtUtil {
         try {
             this.SECRET_KEY = Keys.hmacShaKeyFor(Base64.getDecoder().decode(secret));
         } catch (IllegalArgumentException e) {
-            // TODO Update CustomException
             throw new RuntimeException("Invalid SECRET_KEY format. Ensure it is Base64-encoded.", e);
         }
     }
@@ -36,7 +37,7 @@ public class JwtUtil {
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRATION))
+                .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRATION * 1000L))
                 .signWith(SECRET_KEY, SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -49,7 +50,7 @@ public class JwtUtil {
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + REFRESH_TOKEN_EXPIRATION))
+                .setExpiration(new Date(System.currentTimeMillis() + REFRESH_TOKEN_EXPIRATION * 1000L))
                 .signWith(SECRET_KEY, SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -60,13 +61,11 @@ public class JwtUtil {
             Date expiration = claims.getExpiration();
 
             if (expiration.before(new Date(System.currentTimeMillis()))) {
-                // TODO Update CustomException
-                throw new RuntimeException("Invalid JWT token");
+                throw new CustomException(ErrorCode.INVALID_TOKEN);
             }
             return claims.get("email", String.class);
         } catch (Exception e) {
-            // TODO Update CustomException
-            throw new RuntimeException("Invalid JWT token", e);
+            throw new CustomException(ErrorCode.INVALID_TOKEN);
         }
     }
 

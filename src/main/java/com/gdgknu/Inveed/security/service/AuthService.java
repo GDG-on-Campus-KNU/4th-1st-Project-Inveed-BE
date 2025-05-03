@@ -2,6 +2,8 @@ package com.gdgknu.Inveed.security.service;
 
 import com.gdgknu.Inveed.domain.user.User;
 import com.gdgknu.Inveed.domain.user.UserRepository;
+import com.gdgknu.Inveed.response.CustomException;
+import com.gdgknu.Inveed.response.ErrorCode;
 import com.gdgknu.Inveed.security.dto.LoginResDTO;
 import com.gdgknu.Inveed.security.dto.ReissueReqDTO;
 import jakarta.servlet.http.Cookie;
@@ -25,8 +27,7 @@ public class AuthService {
         String storedRefreshToken = refreshTokenService.getRefreshToken(email);
 
         if (!reissueReqDTO.refreshToken().equals(storedRefreshToken)) {
-            // TODO Update CustomException
-            throw new RuntimeException("Refresh Token mismatch");
+            throw new CustomException(ErrorCode.TOKEN_MISMATCHED);
         }
 
         String newAccessToken = jwtUtil.createAccessToken(email);

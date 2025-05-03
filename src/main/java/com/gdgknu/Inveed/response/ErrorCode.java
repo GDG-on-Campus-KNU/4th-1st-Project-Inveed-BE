@@ -25,6 +25,8 @@ public enum ErrorCode {
     NOT_LOGGED_IN(HttpStatus.UNAUTHORIZED, "로그인이 필요합니다."),
     TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "토큰이 만료되었습니다."),
     LOGOUT(HttpStatus.UNAUTHORIZED, "로그아웃 상태입니다."),
+    INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다."),
+    TOKEN_MISMATCHED(HttpStatus.UNAUTHORIZED, "잘못된 리프레쉬 토큰입니다."),
 
 
     /*
@@ -33,6 +35,7 @@ public enum ErrorCode {
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "사용자를 찾을 수 없습니다."),    // 예시
     HANDLER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 핸들러입니다."),
     FAVORITE_STOCK_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 관심 종목입니다."),
+    REFRESH_TOKEN_NOT_FOUND(HttpStatus.NOT_FOUND, "리프레쉬 토큰을 찾을 수 없습니다."),
 
     /*
      * 405 METHOD_NOT_ALLOWED: 허용되지 않은 Request Method 호출
