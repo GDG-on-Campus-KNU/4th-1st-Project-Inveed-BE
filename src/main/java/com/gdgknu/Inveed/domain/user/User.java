@@ -1,10 +1,14 @@
 package com.gdgknu.Inveed.domain.user;
 
 import com.gdgknu.Inveed.domain.BaseTimeEntity;
+import com.gdgknu.Inveed.domain.favoriteStock.entity.FavoriteStock;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -25,6 +29,10 @@ public class User extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    private List<FavoriteStock> favoriteStocks;
 
     @Builder
     public User(String name, String email, Role role) {
