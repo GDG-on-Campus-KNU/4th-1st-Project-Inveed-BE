@@ -98,11 +98,11 @@ public class AuthService {
         if (response.getStatusCode() != HttpStatus.OK)
             throw new CustomException(ErrorCode.KINVEST_SERVER_ERROR);
 
-        kInvestTokenService.saveKInvestToken(email, extractAccessToken(response));
+        kInvestTokenService.saveKInvestToken(email, extractKInvestAccessToken(response));
 
     }
 
-    public String extractAccessToken(ResponseEntity<String> response) {
+    public String extractKInvestAccessToken(ResponseEntity<String> response) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode root = objectMapper.readTree(response.getBody());
