@@ -4,6 +4,7 @@ import com.gdgknu.Inveed.response.ResponseUtil;
 import com.gdgknu.Inveed.response.SuccessCode;
 import com.gdgknu.Inveed.response.SuccessResponse;
 import com.gdgknu.Inveed.security.dto.KInvestLoginReq;
+import com.gdgknu.Inveed.security.dto.KInvestLoginRes;
 import com.gdgknu.Inveed.security.dto.LoginResDTO;
 import com.gdgknu.Inveed.security.dto.ReissueReqDTO;
 import com.gdgknu.Inveed.security.service.AuthService;
@@ -42,8 +43,8 @@ public class AuthController {
     }
 
     @PostMapping("/kinvest-login")
-    public ResponseEntity<SuccessResponse<Object>> kinvestLogin(@RequestAttribute("accessToken") String accessToken, @RequestBody KInvestLoginReq kInvestLoginReq) {
-        authService.kinvestLogin(accessToken, kInvestLoginReq);
-        return ResponseUtil.buildSuccessResponse(SuccessCode.KINVEST_LOGIN_SUCCESS);
+    public ResponseEntity<SuccessResponse<KInvestLoginRes>> kinvestLogin(@RequestBody KInvestLoginReq kInvestLoginReq) {
+        KInvestLoginRes kInvestLoginRes = authService.kinvestLogin(kInvestLoginReq);
+        return ResponseUtil.buildSuccessResponse(SuccessCode.KINVEST_LOGIN_SUCCESS, kInvestLoginRes);
     }
 }

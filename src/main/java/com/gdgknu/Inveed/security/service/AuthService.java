@@ -7,6 +7,7 @@ import com.gdgknu.Inveed.domain.user.UserRepository;
 import com.gdgknu.Inveed.response.CustomException;
 import com.gdgknu.Inveed.response.ErrorCode;
 import com.gdgknu.Inveed.security.dto.KInvestLoginReq;
+import com.gdgknu.Inveed.security.dto.KInvestLoginRes;
 import com.gdgknu.Inveed.security.dto.LoginResDTO;
 import com.gdgknu.Inveed.security.dto.ReissueReqDTO;
 import jakarta.servlet.http.Cookie;
@@ -71,9 +72,7 @@ public class AuthService {
         return LoginResDTO.fromEntity(user, accessToken, storedRefreshToken);
     }
 
-    public void kinvestLogin(String accessToken, KInvestLoginReq kInvestLoginReq) {
-        String email = jwtUtil.extractEmail(accessToken);
-
+    public KInvestLoginRes kinvestLogin(KInvestLoginReq kInvestLoginReq) {
         RestTemplate restTemplate = new RestTemplate();
 
         // Setup body
@@ -97,8 +96,8 @@ public class AuthService {
 
         if (response.getStatusCode() != HttpStatus.OK)
             throw new CustomException(ErrorCode.KINVEST_SERVER_ERROR);
-
-        kInvestTokenService.saveKInvestToken(email, extractKInvestAccessToken(response));
+        String kInvestToken = extractKInvestAccessToken(response);
+        return new KInvestLoginRes(kInvestToken);
 
     }
 
