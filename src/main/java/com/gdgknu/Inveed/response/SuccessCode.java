@@ -13,6 +13,9 @@ public enum SuccessCode {
      */
     LOGIN_SUCCESS(HttpStatus.OK, "로그인 성공"),
     LOGOUT_SUCCESS(HttpStatus.OK, "로그아웃 성공"),
+    REFRESH_TOKEN_SUCCESS(HttpStatus.OK, "토큰 재발급 성공"),
+    KINVEST_LOGIN_SUCCESS(HttpStatus.OK, "한국투자증권 토큰 발급 성공"),
+
     STOCK_RANK_VOL_SUCCESS(HttpStatus.OK, "거래량 조회 성공"),
     STOCK_RANK_PBMN_SUCCESS(HttpStatus.OK, "거래대금 조회 성공"),
     STOCK_RANK_GROWTH_SUCCESS(HttpStatus.OK, "거래증가율 조회 성공"),
