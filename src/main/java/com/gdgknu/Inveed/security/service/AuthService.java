@@ -29,7 +29,6 @@ import java.util.Map;
 public class AuthService {
 
     private final RefreshTokenService refreshTokenService;
-    private final KInvestTokenService kInvestTokenService;
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
 
@@ -55,7 +54,6 @@ public class AuthService {
     public void logout(HttpServletResponse response, String accessToken) {
         String email = jwtUtil.extractEmail(accessToken);
         refreshTokenService.deleteTokens(email);
-        kInvestTokenService.deleteTokens(email);
 
         Cookie accessTokenCookie = new Cookie("accessToken", null);
         accessTokenCookie.setHttpOnly(true);
