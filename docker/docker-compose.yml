@@ -20,7 +20,7 @@ services:
     platform: linux/arm64/v8
     container_name: logstash
     ports:
-      - "5001:5001"  # Logstash가 TCP 포트 5000에서 로그 수신
+      - "5001:5001"  # Logstash가 TCP 포트 5001에서 로그 수신
     depends_on:
       - elasticsearch
     networks:
