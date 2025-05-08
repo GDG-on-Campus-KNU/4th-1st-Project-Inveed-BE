@@ -1,4 +1,4 @@
-package com.gdgknu.Inveed.domain.StockRank.dto;
+package com.gdgknu.Inveed.domain.stockRank.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

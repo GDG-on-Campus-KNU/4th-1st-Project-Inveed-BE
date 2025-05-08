@@ -1,4 +1,4 @@
-package com.gdgknu.Inveed.domain.StockRank.dto;
+package com.gdgknu.Inveed.domain.stockRank.dto;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.validation.constraints.NotBlank;

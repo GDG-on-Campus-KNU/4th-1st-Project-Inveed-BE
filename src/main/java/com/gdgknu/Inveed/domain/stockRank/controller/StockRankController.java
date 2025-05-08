@@ -1,8 +1,8 @@
-package com.gdgknu.Inveed.domain.StockRank.controller;
+package com.gdgknu.Inveed.domain.stockRank.controller;
 
-import com.gdgknu.Inveed.domain.StockRank.dto.StockRankReqDTO;
-import com.gdgknu.Inveed.domain.StockRank.dto.StockRankResDTO;
-import com.gdgknu.Inveed.domain.StockRank.service.StockRankService;
+import com.gdgknu.Inveed.domain.stockRank.dto.StockRankReqDTO;
+import com.gdgknu.Inveed.domain.stockRank.dto.StockRankResDTO;
+import com.gdgknu.Inveed.domain.stockRank.service.StockRankService;
 import com.gdgknu.Inveed.response.ResponseUtil;
 import com.gdgknu.Inveed.response.SuccessCode;
 import com.gdgknu.Inveed.response.SuccessResponse;
