@@ -1,7 +1,6 @@
-package com.gdgknu.Inveed.domain.es;
+package com.gdgknu.Inveed.domain.searchStock;
 
 import lombok.RequiredArgsConstructor;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,21 +8,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/api/logs")
-public class LogController {
+public class SearchStockController {
 
-    private final LogService logService;
-    private static final Logger logger = (Logger.getLogger(LogController.class.getName()));
-
-    @GetMapping("/all")
-    public Iterable<Log> getAllLogs() {
-        return logService.findAllLogs();
-    }
+    private final SearchStockService searchStockService;
+    private static final Logger logger = Logger.getLogger("SearchLogger");
 
     @PostMapping("/search")
     public ResponseEntity<String> logSearchKeyword(@RequestBody Map<String, String> body) {
@@ -34,6 +29,12 @@ public class LogController {
 
         logger.info(keyword);
         return ResponseEntity.ok("Logged keyword: " + keyword);
+    }
+
+    @GetMapping("/top10")
+    public ResponseEntity<List<SearchKeywordDTO>> getTop10Keywords() {
+        List<SearchKeywordDTO> top10Keywords = searchStockService.getTop10Keywords();
+        return ResponseEntity.ok(top10Keywords);
     }
 
 }

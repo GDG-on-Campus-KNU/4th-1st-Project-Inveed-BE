@@ -1,10 +1,10 @@
 <configuration>
-    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>localhost:5001</destination> <!-- Logstash가 열어둔 포트 -->
+    <appender name="SEARCH_LOG" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>localhost:5001</destination> <!-- Logstash TCP 포트 -->
         <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
     </appender>
 
-    <root level="INFO">
-        <appender-ref ref="LOGSTASH" />
-    </root>
+    <logger name="SearchLogger" level="INFO" additivity="false">
+        <appender-ref ref="SEARCH_LOG" />
+    </logger>
 </configuration>
