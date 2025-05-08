@@ -2,6 +2,8 @@ package com.gdgknu.Inveed.security.service;
 
 import com.gdgknu.Inveed.domain.user.User;
 import com.gdgknu.Inveed.domain.user.UserRepository;
+import com.gdgknu.Inveed.response.CustomException;
+import com.gdgknu.Inveed.response.ErrorCode;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,8 +37,8 @@ public class JwtFilter extends OncePerRequestFilter {
             String accessToken = authHeader.replace("Bearer ", "");
             String email = jwtUtil.extractEmail(accessToken);
 
-            // TODO Update CustomException
-            User user = userRepository.findByEmail(email).orElseThrow();
+            User user = userRepository.findByEmail(email).orElseThrow(
+                    ()-> new CustomException(ErrorCode.USER_NOT_FOUND));
 
             request.setAttribute("accessToken", accessToken);
             request.setAttribute("userId", user.getId());

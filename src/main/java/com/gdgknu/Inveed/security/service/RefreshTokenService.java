@@ -1,5 +1,7 @@
 package com.gdgknu.Inveed.security.service;
 
+import com.gdgknu.Inveed.response.CustomException;
+import com.gdgknu.Inveed.response.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -19,8 +21,7 @@ public class RefreshTokenService {
     public String getRefreshToken(String email) {
         String existingRefreshToken = redisTemplate.opsForValue().get(email);
         if(existingRefreshToken == null) {
-            // TODO Update CustomException
-            throw new RuntimeException("No refresh token found for email: " + email);
+            throw new CustomException(ErrorCode.REFRESH_TOKEN_NOT_FOUND);
         }
         return existingRefreshToken;
     }

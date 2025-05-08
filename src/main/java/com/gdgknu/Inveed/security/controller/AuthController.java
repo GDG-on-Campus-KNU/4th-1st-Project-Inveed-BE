@@ -1,5 +1,10 @@
 package com.gdgknu.Inveed.security.controller;
 
+import com.gdgknu.Inveed.response.ResponseUtil;
+import com.gdgknu.Inveed.response.SuccessCode;
+import com.gdgknu.Inveed.response.SuccessResponse;
+import com.gdgknu.Inveed.security.dto.KInvestLoginReq;
+import com.gdgknu.Inveed.security.dto.KInvestLoginRes;
 import com.gdgknu.Inveed.security.dto.LoginResDTO;
 import com.gdgknu.Inveed.security.dto.ReissueReqDTO;
 import com.gdgknu.Inveed.security.service.AuthService;
@@ -17,23 +22,29 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/refresh")
-    public ResponseEntity<LoginResDTO> refreshAccessToken(@RequestBody ReissueReqDTO reissueReqDTO) {
-        LoginResDTO authResDTO = authService.refreshAccessToken(reissueReqDTO);
-        return ResponseEntity.ok(authResDTO);
+    public ResponseEntity<SuccessResponse<LoginResDTO>> refreshAccessToken(@RequestBody ReissueReqDTO reissueReqDTO) {
+        LoginResDTO loginResDTO = authService.refreshAccessToken(reissueReqDTO);
+        return ResponseUtil.buildSuccessResponse(SuccessCode.REFRESH_TOKEN_SUCCESS, loginResDTO);
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(HttpServletResponse response, @RequestAttribute("accessToken") String accessToken) {
+    public ResponseEntity<SuccessResponse<Object>> logout(HttpServletResponse response, @RequestAttribute("accessToken") String accessToken) {
         authService.logout(response, accessToken);
-        return ResponseEntity.ok().build();
+        return ResponseUtil.buildSuccessResponse(SuccessCode.LOGOUT_SUCCESS);
     }
 
     @GetMapping("/login-info")
-    public ResponseEntity<LoginResDTO> getLoginInfo(@CookieValue(value = "accessToken", required = false) String accessToken) {
+    public ResponseEntity<SuccessResponse<LoginResDTO>> getLoginInfo(@CookieValue(value = "accessToken", required = false) String accessToken) {
         if (accessToken == null)
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
         LoginResDTO loginResDTO = authService.getLoginInfo(accessToken);
-        return ResponseEntity.ok(loginResDTO);
+        return ResponseUtil.buildSuccessResponse(SuccessCode.LOGIN_SUCCESS, loginResDTO);
+    }
+
+    @PostMapping("/kinvest-login")
+    public ResponseEntity<SuccessResponse<KInvestLoginRes>> kinvestLogin(@RequestBody KInvestLoginReq kInvestLoginReq) {
+        KInvestLoginRes kInvestLoginRes = authService.kinvestLogin(kInvestLoginReq);
+        return ResponseUtil.buildSuccessResponse(SuccessCode.KINVEST_LOGIN_SUCCESS, kInvestLoginRes);
     }
 }
