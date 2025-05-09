@@ -32,7 +32,15 @@ public enum SuccessCode {
      * 201 CREATED: 새로운 리소스 생성 성공 (POST)
      */
     BUILDING_POST_SUCCESS(HttpStatus.CREATED, "건물 생성 성공"),
-    FAVORITE_STOCK_POST_SUCCESS(HttpStatus.CREATED, "관심 종목 추가 성공");
+    FAVORITE_STOCK_POST_SUCCESS(HttpStatus.CREATED, "관심 종목 추가 성공"),
+
+    // Transaction - 200 OK (조회, 수정, 삭제 성공)
+    TRANSACTION_READ_SUCCESS(HttpStatus.OK, "거래 내역 조회 성공"),
+    TRANSACTION_UPDATE_SUCCESS(HttpStatus.OK, "거래 내역 수정 성공"),
+    TRANSACTION_DELETE_SUCCESS(HttpStatus.OK, "거래 내역 삭제 성공"),
+
+    // Transaction - 201 CREATED (새 리소스 생성 성공)
+    TRANSACTION_POST_SUCCESS(HttpStatus.CREATED, "거래 내역 저장 성공");
 
 
     private final HttpStatus status;
