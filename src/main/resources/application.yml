@@ -33,11 +33,13 @@ spring:
               - email
               - profile
 
-
-
   elasticsearch:
     uris: ${ELASTICSEARCH_URL}
 
+
+gemini:
+  url: ${GEMINI_URL}
+  key: ${GEMINI_KEY}
 
 jwt:
   secret: ${JWT_SECRET}

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -22,8 +23,9 @@ public class SearchStockService {
     private final ObjectMapper objectMapper;
     private static final Logger logger = Logger.getLogger("SearchLogger");
 
-    // load from env
-    private final String baseUrl = "${ELASTICSEARCH_URL}";
+    @Value("${spring.elasticsearch.uris}")
+    private String baseUrl;
+
 
     public List<SearchKeywordDTO> getTop10Keywords() {
         String indexName = getTodayIndexName();
