@@ -21,6 +21,8 @@ public class GlobalExceptionHandler {
             throw ex;
         }
 
+        System.out.println("GlobalExceptionHandler: " + ex.getMessage());
+
         return ErrorResponse.toResponseEntity(ErrorCode.INTERNAL_SERVER_ERROR);
     }
 

@@ -24,6 +24,10 @@ public enum SuccessCode {
     FAVORITE_STOCK_READ_SUCCESS(HttpStatus.OK, "관심 종목 조회 성공"),
     FAVORITE_STOCK_DELETE_SUCCESS(HttpStatus.OK, "관심 종목 삭제 성공"),
 
+    LOG_SEARCH_SUCCESS(HttpStatus.OK, "검색 성공"),
+    LOG_KEYWORD_SUCCESS(HttpStatus.OK, "검색어 로그 성공"),
+    TOP10_KEYWORD_SUCCESS(HttpStatus.OK, "상위 10개 검색어 조회 성공"),
+
     /**
      * 201 CREATED: 새로운 리소스 생성 성공 (POST)
      */

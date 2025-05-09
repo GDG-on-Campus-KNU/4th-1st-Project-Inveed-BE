@@ -1,10 +1,10 @@
-package com.gdgknu.Inveed.domain.StockRank.service;
+package com.gdgknu.Inveed.domain.stockRank.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gdgknu.Inveed.domain.StockRank.dto.StockRankReqDTO;
-import com.gdgknu.Inveed.domain.StockRank.dto.StockRankResDTO;
+import com.gdgknu.Inveed.domain.stockRank.dto.StockRankReqDTO;
+import com.gdgknu.Inveed.domain.stockRank.dto.StockRankResDTO;
 import com.gdgknu.Inveed.response.CustomException;
 import com.gdgknu.Inveed.response.ErrorCode;
 import lombok.RequiredArgsConstructor;
