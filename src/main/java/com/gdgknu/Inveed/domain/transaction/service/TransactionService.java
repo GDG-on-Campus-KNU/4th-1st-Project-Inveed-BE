@@ -29,6 +29,8 @@ public class TransactionService {
 
         Transaction transaction = Transaction.builder()
                 .user(user)
+                .type(reqDTO.type())
+                .category(reqDTO.category())
                 .storeName(reqDTO.storeName())
                 .amount(reqDTO.amount())
                 .transactionName(reqDTO.transactionName())
@@ -62,6 +64,8 @@ public class TransactionService {
                 .orElseThrow(() -> new CustomException(ErrorCode.TRANSACTION_NOT_FOUND));
 
         transaction.update(
+                reqDTO.type(),
+                reqDTO.category(),
                 reqDTO.storeName(),
                 reqDTO.amount(),
                 reqDTO.transactionDate(),
