@@ -7,12 +7,6 @@ import org.springframework.data.elasticsearch.client.elc.ElasticsearchConfigurat
 
 public class ElasticsearchConfig extends ElasticsearchConfiguration {
 
-    @Value("${spring.elasticsearch.username}")
-    private String username;
-
-    @Value("${spring.elasticsearch.password}")
-    private String password;
-
     @Value("${spring.elasticsearch.uris}")
     private String host;
 

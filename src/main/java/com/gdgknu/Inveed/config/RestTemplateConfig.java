@@ -17,8 +17,8 @@ public class RestTemplateConfig {
     @Bean
     public ObjectMapper objectMapper() {
         ObjectMapper mapper = new ObjectMapper();
-        mapper.registerModule(new JavaTimeModule()); // LocalDateTime 등 지원
-        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS); // ISO-8601 형식 사용
+        mapper.registerModule(new JavaTimeModule()); // Add JavaTimeModule to handle Java 8 date/time types
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS); // Use ISO-8601 format for dates
         return mapper;
     }
 }

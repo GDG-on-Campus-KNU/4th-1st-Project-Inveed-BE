@@ -53,3 +53,9 @@ out/
 
 ### dummy data ###
 **/*.sql
+
+### logstash config ###
+.conf
+
+### docker-compose ###
+**/docker-compose.yml

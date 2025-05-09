@@ -22,9 +22,12 @@ public class SearchStockService {
     private final ObjectMapper objectMapper;
     private static final Logger logger = Logger.getLogger("SearchLogger");
 
+    // load from env
+    private final String baseUrl = "${ELASTICSEARCH_URL}";
+
     public List<SearchKeywordDTO> getTop10Keywords() {
         String indexName = getTodayIndexName();
-        String elasticsearchUrl = "http://localhost:9200/" + indexName + "/_search";
+        String elasticsearchUrl = baseUrl + indexName + "/_search";
         String query = """
             {
               "size": 0,
@@ -64,7 +67,7 @@ public class SearchStockService {
         }
 
         String indexName = getTodayIndexName();
-        String elasticsearchUrl = "http://localhost:9200/" + indexName + "/_search";
+        String elasticsearchUrl = baseUrl + indexName + "/_search";
 
         String query = """
             {
